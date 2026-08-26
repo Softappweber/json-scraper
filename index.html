@@ -3,338 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>B2B Data Provider</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;padding:20px}
-.container{max-width:1100px;margin:auto}
-.header,.panel{background:#fff;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1);margin-bottom:20px}
-.header{padding:25px;text-align:center}
-.header h1{font-size:2em;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.header p{margin-top:8px;color:#666}
-.panel{padding:20px}
-.config-box{background:#f8fafc;border:2px dashed #667eea;border-radius:10px;padding:15px;margin-bottom:20px}
-.config-box label{display:block;font-weight:700;margin-bottom:6px;color:#374151}
-.config-box input{width:100%;padding:10px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;margin-bottom:10px}
-.config-box .hint{font-size:12px;color:#6b7280;margin-top:5px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.field label{display:block;font-weight:700;margin-bottom:6px;color:#374151}
-.field input,.field select{width:100%;padding:10px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px}
-.btn{padding:11px 18px;border:0;border-radius:8px;font-weight:700;cursor:pointer;margin:5px 5px 0 0}
-.primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
-.success{background:#10b981;color:#fff}
-.secondary{background:#eef2ff;color:#4f46e5}
-.danger{background:#ef4444;color:#fff}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.stats{display:flex;flex-wrap:wrap;gap:10px}
-.stat{background:#f3f4f6;padding:12px 22px;border-radius:10px;text-align:center;min-width:120px}
-.stat .num{font-size:1.5em;font-weight:800;color:#667eea}
-.table-wrap{max-height:430px;overflow:auto;margin-top:12px}
-.results{width:100%;border-collapse:collapse;min-width:900px}
-.results th{position:sticky;top:0;background:#667eea;color:#fff;padding:10px;text-align:left}
-.results td{padding:9px;border-bottom:1px solid #e5e7eb;font-size:13px}
-.log{background:#1a1a2e;color:#10b981;padding:12px;border-radius:8px;font:12px monospace;max-height:180px;overflow:auto}
-.hint{background:#f8fafc;border-left:4px solid #667eea;padding:12px;margin-bottom:15px;color:#475569}
-.actions{margin-top:12px}
-.empty{text-align:center;color:#6b7280;padding:25px}
-.small{font-size:12px;color:#6b7280;margin-top:8px}
-.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
-.badge-valid{background:#d1fae5;color:#065f46}
-.badge-invalid{background:#fee2e2;color:#991b1b}
-.badge-unknown{background:#fef3c7;color:#92400e}
-</style>
+<title>🔍 Business Scraper Pro</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <div class="container">
 
 <div class="header">
-<h1>🚀 B2B Data Provider</h1>
-<p>Google Sheets Backend + Modular API Architecture</p>
+<h1>🔍 Business Scraper Pro</h1>
+<p>SerpAPI + Hunter API + Google Sheets</p>
 </div>
 
-<div class="panel">
-<div class="config-box">
-<h3 style="margin-bottom:10px;">⚙️ Backend Configuration</h3>
-<label>Google Apps Script URL:</label>
-<input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec">
-<div class="hint">Google Apps Script deploy karke URL yahan paste karo</div>
-</div>
-</div>
-
-<div class="panel">
-<div class="hint"><b>Data Sources:</b> Import CSV ya Google Sheets se load karo. Data clean, deduplicate, filter karke export karo.</div>
+<div class="panel config-panel">
+<h3>⚙️ API Configuration</h3>
 <div class="grid">
-<div class="field"><label>City</label><input id="city" placeholder="e.g. Mumbai"></div>
-<div class="field"><label>Category</label><input id="category" placeholder="e.g. Photographer"></div>
-<div class="field"><label>Email status</label><select id="emailStatus"><option value="">Any</option><option value="valid">Valid</option><option value="unknown">Unknown</option><option value="invalid">Invalid</option></select></div>
-<div class="field"><label>Maximum records</label><input id="limit" type="number" min="1" value="3000"></div>
+<div class="field">
+<label>Google Apps Script URL</label>
+<input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/...">
+</div>
+<div class="field">
+<label>SerpAPI Key</label>
+<input type="text" id="serpApiKey" placeholder="SerpAPI key (serpapi.com)">
+</div>
+<div class="field">
+<label>Hunter API Key</label>
+<input type="text" id="hunterApiKey" placeholder="Hunter API key (hunter.io)">
+</div>
+</div>
+</div>
+
+<div class="panel">
+<h3>🔍 Search</h3>
+<div class="grid">
+<div class="field">
+<label>City</label>
+<input type="text" id="city" placeholder="Mumbai">
+</div>
+<div class="field">
+<label>Business Type</label>
+<input type="text" id="category" placeholder="Photographer">
+</div>
+<div class="field">
+<label>Max Results</label>
+<input type="number" id="limit" value="50" min="10" max="100">
+</div>
 </div>
 <div class="actions">
-<button class="btn primary" id="importBtn">📂 Import CSV</button>
-<button class="btn secondary" id="loadSheetBtn">📊 Load from Google Sheet</button>
-<button class="btn secondary" id="saveSheetBtn">💾 Save to Google Sheet</button>
-<button class="btn secondary" id="loadDemoBtn">🧪 Load Demo Data</button>
-<button class="btn success" id="exportBtn" disabled>📥 Export CSV</button>
-<button class="btn success" id="exportXlsxBtn" disabled>📊 Export XLSX</button>
-<button class="btn danger" id="clearBtn">🗑 Clear</button>
-<input id="fileInput" type="file" accept=".csv,text/csv" hidden>
+<button class="btn primary" id="scrapeBtn" onclick="startScrape()">🔍 Start Scraping</button>
+<button class="btn success" id="saveBtn" onclick="saveData()" disabled>💾 Save to Sheet</button>
+<button class="btn secondary" onclick="loadData()">📊 Load from Sheet</button>
 </div>
-<div class="small">Columns: business_name, category, city, area, website, business_phone, business_email, email_status, source, source_url, verified_date</div>
 </div>
 
 <div class="panel">
 <div class="stats">
-<div class="stat"><div class="num" id="total">0</div>Records</div>
-<div class="stat"><div class="num" id="emails">0</div>Emails</div>
-<div class="stat"><div class="num" id="phones">0</div>Phones</div>
-<div class="stat"><div class="num" id="valid">0</div>Valid Emails</div>
+<div class="stat"><div class="num" id="statContacts">0</div><div class="label">Contacts</div></div>
+<div class="stat"><div class="num" id="statEmails">0</div><div class="label">Emails</div></div>
+<div class="stat"><div class="num" id="statPhones">0</div><div class="label">Phones</div></div>
+<div class="stat"><div class="num" id="statVerified">0</div><div class="label">Verified</div></div>
 </div>
 </div>
 
 <div class="panel">
 <h3>📊 Results</h3>
 <div class="table-wrap">
-<table class="results">
-<thead><tr><th>#</th><th>Business</th><th>Category</th><th>City</th><th>Area</th><th>Email</th><th>Status</th><th>Phone</th><th>Website</th><th>Source</th></tr></thead>
-<tbody id="results"><tr><td colspan="10" class="empty">Import data or load from Google Sheet.</td></tr></tbody>
+<table>
+<thead><tr><th>#</th><th>Business</th><th>Email</th><th>Status</th><th>Phone</th><th>Website</th><th>Source</th></tr></thead>
+<tbody id="results"><tr><td colspan="7" class="empty">Search karne ke baad results yahan dikhenge</td></tr></tbody>
 </table>
 </div>
 </div>
 
 <div class="panel">
 <h3>📋 Log</h3>
-<div class="log" id="log">Ready. Configure Apps Script URL and start.</div>
+<div class="log" id="log">Ready. API keys daalo aur scrape karo.</div>
 </div>
 
 </div>
 
-<script>
-'use strict';
-let records=[];
-let filtered=[];
-const $=id=>document.getElementById(id);
-
-function log(msg){
-  const d=$('log');
-  const e=document.createElement('div');
-  e.textContent='['+new Date().toLocaleTimeString()+'] '+msg;
-  d.appendChild(e);
-  d.scrollTop=d.scrollHeight;
-}
-
-function normalizeKey(k){
-  return String(k||'').trim().toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
-}
-
-function normalizeRecord(r){
-  const x={};
-  Object.keys(r).forEach(k=>x[normalizeKey(k)]=String(r[k]??'').trim());
-  return {
-    business_name:x.business_name||x.name||x.business||'',
-    category:x.category||x.business_type||'',
-    city:x.city||x.location_city||'',
-    area:x.area||x.locality||'',
-    website:x.website||x.url||'',
-    business_phone:x.business_phone||x.phone||x.telephone||'',
-    business_email:x.business_email||x.email||'',
-    email_status:(x.email_status||x.status||'unknown').toLowerCase(),
-    source:x.source||'',
-    source_url:x.source_url||x.sourceurl||'',
-    verified_date:x.verified_date||x.verified||''
-  };
-}
-
-function parseCSV(text){
-  const rows=[];
-  let row=[],cell='',quoted=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i],n=text[i+1];
-    if(c==='"'){
-      if(quoted&&n==='"'){cell+='"';i++;}
-      else quoted=!quoted;
-    }
-    else if(c===','&&!quoted){row.push(cell);cell='';}
-    else if((c==='\n'||c==='\r')&&!quoted){
-      if(c==='\r'&&n==='\n')i++;
-      row.push(cell);
-      if(row.some(v=>v.trim()!==''))rows.push(row);
-      row=[];cell='';
-    }
-    else cell+=c;
-  }
-  row.push(cell);
-  if(row.some(v=>v.trim()!==''))rows.push(row);
-  if(!rows.length)return[];
-  const headers=rows[0];
-  return rows.slice(1).map(a=>{
-    const o={};
-    headers.forEach((h,i)=>o[h]=a[i]??'');
-    return normalizeRecord(o);
-  });
-}
-
-function dedupe(data){
-  const seen=new Set(),out=[];
-  for(const r of data){
-    const key=(r.business_email||'').toLowerCase()+'|'+(r.website||'').toLowerCase()+'|'+(r.business_name||'').toLowerCase()+'|'+(r.city||'').toLowerCase();
-    if(!key.replaceAll('|',''))continue;
-    if(seen.has(key))continue;
-    seen.add(key);
-    out.push(r);
-  }
-  return out;
-}
-
-function applyFilters(){
-  let d=[...records];
-  const city=$('city').value.trim().toLowerCase();
-  const cat=$('category').value.trim().toLowerCase();
-  const status=$('emailStatus').value;
-  if(city)d=d.filter(r=>r.city.toLowerCase().includes(city));
-  if(cat)d=d.filter(r=>r.category.toLowerCase().includes(cat));
-  if(status)d=d.filter(r=>r.email_status===status);
-  const lim=Math.max(1,Number($('limit').value)||3000);
-  filtered=d.slice(0,lim);
-  render();
-  log('Filter applied: '+filtered.length+' matching records.');
-}
-
-function render(){
-  const body=$('results');
-  body.innerHTML='';
-  if(!filtered.length){
-    body.innerHTML='<tr><td colspan="10" class="empty">No matching records.</td></tr>';
-  }else{
-    filtered.forEach((r,i)=>{
-      const tr=document.createElement('tr');
-      const statusBadge=r.email_status==='valid'?'<span class="badge badge-valid">Valid</span>':r.email_status==='invalid'?'<span class="badge badge-invalid">Invalid</span>':'<span class="badge badge-unknown">Unknown</span>';
-      const cells=[i+1,r.business_name,r.category,r.city,r.area,r.business_email,statusBadge,r.business_phone,r.website,r.source];
-      cells.forEach(v=>{
-        const td=document.createElement('td');
-        td.innerHTML=v||'—';
-        tr.appendChild(td);
-      });
-      body.appendChild(tr);
-    });
-  }
-  $('total').textContent=filtered.length;
-  $('emails').textContent=filtered.filter(r=>r.business_email).length;
-  $('phones').textContent=filtered.filter(r=>r.business_phone).length;
-  $('valid').textContent=filtered.filter(r=>r.email_status==='valid').length;
-  $('exportBtn').disabled=!filtered.length;
-  $('exportXlsxBtn').disabled=!filtered.length;
-}
-
-function csvEscape(v){
-  return '"'+String(v??'').replaceAll('"','""')+'"';
-}
-
-function downloadBlob(content,name,type){
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([content],{type}));
-  a.download=name;
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-}
-
-function exportCSV(){
-  if(!filtered.length)return;
-  const cols=['business_name','category','city','area','website','business_phone','business_email','email_status','source','source_url','verified_date'];
-  const csv=cols.map(csvEscape).join(',')+'\n'+filtered.map(r=>cols.map(c=>csvEscape(r[c])).join(',')).join('\n');
-  downloadBlob(csv,'data_provider_'+Date.now()+'.csv','text/csv;charset=utf-8');
-  log('CSV exported: '+filtered.length+' records.');
-}
-
-function exportXLSX(){
-  if(!filtered.length)return;
-  const cols=['business_name','category','city','area','website','business_phone','business_email','email_status','source','source_url','verified_date'];
-  const html='<table><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>'+filtered.map(r=>'<tr>'+cols.map(c=>'<td>'+String(r[c]??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')+'</td>').join('')+'</tr>').join('')+'</table>';
-  downloadBlob(html,'data_provider_'+Date.now()+'.xls','application/vnd.ms-excel');
-  log('Excel exported.');
-}
-
-async function callScript(action,data){
-  const url=$('scriptUrl').value.trim();
-  if(!url){
-    alert('Please enter Google Apps Script URL');
-    return null;
-  }
-  try{
-    const response=await fetch(url,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action,data})
-    });
-    return await response.json();
-  }catch(e){
-    log('Script error: '+e.message);
-    return null;
-  }
-}
-
-async function loadFromSheet(){
-  const result=await callScript('load');
-  if(result&&result.success){
-    records=dedupe(result.data.map(normalizeRecord));
-    log('Loaded '+records.length+' records from Google Sheet');
-    applyFilters();
-  }else{
-    log('Failed to load from sheet');
-  }
-}
-
-async function saveToSheet(){
-  if(!records.length){
-    alert('No records to save');
-    return;
-  }
-  const result=await callScript('save',records);
-  if(result&&result.success){
-    log('Saved '+records.length+' records to Google Sheet');
-  }else{
-    log('Failed to save to sheet');
-  }
-}
-
-$('importBtn').onclick=()=>$('fileInput').click();
-
-$('fileInput').onchange=async e=>{
-  const f=e.target.files[0];
-  if(!f)return;
-  try{
-    const text=await f.text();
-    records=dedupe(parseCSV(text));
-    log('Imported '+records.length+' unique records from '+f.name);
-    applyFilters();
-  }catch(err){
-    log('Import failed: '+err.message);
-    alert('Could not read CSV: '+err.message);
-  }
-  e.target.value='';
-};
-
-$('loadDemoBtn').onclick=()=>{
-  records=dedupe([
-    {business_name:'Demo Photography Studio',category:'Photographer',city:'Mumbai',area:'Andheri',website:'https://example.com',business_phone:'+91-0000000000',business_email:'info@example.com',email_status:'valid',source:'Demo',source_url:'https://example.com',verified_date:new Date().toISOString().slice(0,10)},
-    {business_name:'Demo Dental Clinic',category:'Dentist',city:'Mumbai',area:'Bandra',website:'https://example.org',business_phone:'+91-0000000001',business_email:'contact@example.org',email_status:'unknown',source:'Demo',source_url:'https://example.org',verified_date:new Date().toISOString().slice(0,10)}
-  ]);
-  log('Demo dataset loaded.');
-  applyFilters();
-};
-
-$('loadSheetBtn').onclick=loadFromSheet;
-$('saveSheetBtn').onclick=saveToSheet;
-$('exportBtn').onclick=exportCSV;
-$('exportXlsxBtn').onclick=exportXLSX;
-
-$('clearBtn').onclick=()=>{
-  records=[];
-  filtered=[];
-  render();
-  log('Database cleared.');
-};
-
-['city','category','emailStatus','limit'].forEach(id=>$(id).addEventListener('input',applyFilters));
-</script>
+<script src="app.js"></script>
 </body>
 </html>
