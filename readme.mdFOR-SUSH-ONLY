@@ -1,0 +1,27 @@
+# B2B Data Provider
+
+## Architecture
+- Frontend: GitHub Pages (HTML/CSS/JS)
+- Backend: Google Apps Script
+- Database: Google Sheets
+
+## Setup
+
+### 1. Google Apps Script
+1. Go to https://script.google.com
+2. Create new project
+3. Paste Code.gs content
+4. Deploy → New deployment → Web app
+5. Execute as: Me
+6. Access: Anyone
+7. Copy the URL
+
+### 2. GitHub Pages
+1. Upload index.html to GitHub repo
+2. Settings → Pages → main branch
+3. Access your page
+
+### 3. Connect
+1. Open your GitHub Pages URL
+2. Paste Apps Script URL in configuration
+3. Start using!
