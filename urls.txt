@@ -1,5 +1,0 @@
-# Add URLs here (one per line)
-# https://dir.indiamart.com/impcat/sublimation-t-shirts.html
-# https://www.tradeindia.com/Seller/electronics/
-# https://www.yellowpages.com/search?search_terms=plumber
-# https://www.alibaba.com/trade/search?SearchText=electronics
